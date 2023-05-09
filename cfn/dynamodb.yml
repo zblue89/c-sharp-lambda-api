@@ -1,0 +1,20 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: DynamoDB Resource
+
+Resources:
+  todoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ToDo
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: 'UserId'
+        AttributeType: 'S'
+      - AttributeName: 'Id'
+        AttributeType: 'S'
+      KeySchema:
+      - AttributeName: UserId
+        KeyType: HASH
+      - AttributeName: Id
+        KeyType: RANGE
