@@ -35,7 +35,35 @@ public class ToDoController : ControllerBase
     public async Task<ActionResult<ToDoItem>> GetOne(string id)
     {
         var item = await toDoRepository.GetToDo(FakeUserId, id);
+        if (item == null)
+        {
+            return NotFound();
+        }
         return Ok(item);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ToDoItem>> Update(string id, [FromBody] CreateToDoRequest request)
+    {
+        var item = await toDoRepository.GetToDo(FakeUserId, id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+        var updatedItem = await toDoRepository.UpdateToDo(FakeUserId, id, request.Details);
+        return Ok(updatedItem);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(string id)
+    {
+        var item = await toDoRepository.GetToDo(FakeUserId, id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+        await toDoRepository.DeleteToDo(FakeUserId, id);
+        return NoContent();
     }
 
 }

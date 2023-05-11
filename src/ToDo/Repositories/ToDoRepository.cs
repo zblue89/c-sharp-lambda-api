@@ -40,5 +40,18 @@ namespace ToDo.Repositories
         {
             return await dynamoDBContext.LoadAsync<ToDoItem>(userId, id);
         }
+
+        public  async Task<ToDoItem> UpdateToDo(string userId, string id, string details)
+        {
+            var item = await dynamoDBContext.LoadAsync<ToDoItem>(userId, id);
+            item.Details = details;
+            await dynamoDBContext.SaveAsync<ToDoItem>(item);
+            return item;
+        }
+
+        public async Task DeleteToDo(string userId, string id)
+        {
+            await dynamoDBContext.DeleteAsync<ToDoItem>(userId, id);
+        }
     }
 }
